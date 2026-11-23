@@ -50,12 +50,18 @@ ENTRY = (
 )
 
 
-def main() -> None:
-    if not (1 <= len(ENTRY) <= 199) or not ENTRY.strip():
+def validate(entry: str) -> None:
+    """Raise ValueError unless entry is 1-199 non-blank characters."""
+    if not (1 <= len(entry) <= 199) or not entry.strip():
         raise ValueError("entry must be 1-199 non-blank characters")
+
+
+def main() -> None:
+    entry = ENTRY.rstrip("\n")
+    validate(entry)
     output_path = Path(os.environ.get("ENTRY_OUTPUT", "/output/entry.txt"))
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(ENTRY, encoding="utf-8")
+    output_path.write_text(entry, encoding="utf-8")
 
 
 if __name__ == "__main__":
